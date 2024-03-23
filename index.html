@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Downloader</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #333;
+        border-radius: 10px;
+    }
+    input[type="text"] {
+        width: calc(100% - 85px);
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+    }
+    button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #4CAF50;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ethos TikTok Downloader</h1>
+    <input type="text" id="tiktoklink" placeholder="Enter TikTok Video Link">
+    <button onclick="downloadvideo()">Download Video</button>
+    <button onclick="downloadaudio()">Download Audio</button>
+</div>
+
+<script>
+    function downloadvideo() {
+        var tiktoklink = document.getElementById("tiktoklink").value;
+        if (tiktoklink) {
+            fetch(`https://ethos-testing.vercel.app/api/tiktok?link=${encodeURIComponent(tiktoklink)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.video) {
+                        var link = document.createElement('a');
+                        link.href = data.video;
+                        link.download = 'video';
+                        document.body.appendChild(link);
+                        link.click();
+                    } else {
+                        console.log("Failed to retrieve TikTok data. Please check the link and try again.");
+                    }
+                })
+                .catch(error => {
+                    console.log("An error occurred while fetching TikTok data. Please try again later.");
+                    console.error('Error:', error);
+                });
+        } else {
+            console.log("Please enter a TikTok video link.");
+        }
+    }
+
+    function downloadaudio() {
+        var tiktoklink = document.getElementById("tiktoklink").value;
+        if (tiktoklink) {
+            fetch(`https://ethos-testing.vercel.app/api/tiktok?link=${encodeURIComponent(tiktoklink)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.audio) {
+                        var link = document.createElement('a');
+                        link.href = data.audio;
+                        link.download = 'audio';
+                        document.body.appendChild(link);
+                        link.click();
+                    } else {
+                        console.log("Failed to retrieve TikTok data. Please check the link and try again.");
+                    }
+                })
+                .catch(error => {
+                    console.log("An error occurred while fetching TikTok data. Please try again later.");
+                    console.error('Error:', error);
+                });
+        } else {
+            alert("Please enter a TikTok video link.");
+        }
+    }
+</script>
+
+</body>
+</html>
